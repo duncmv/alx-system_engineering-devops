@@ -1,7 +1,7 @@
 # install flask using pip3
 
-class { 'python':
-  version => '3.8.10',
+package { 'python':
+  ensure => '3.8.10',
 }
 
 package { 'python3-pip':

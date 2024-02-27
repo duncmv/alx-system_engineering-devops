@@ -9,43 +9,27 @@ service { 'nginx':
   enable  => true,
   require => Package['nginx'],
 }
+file { '/var/www/html/index.nginx-debian.html':
+  ensure  => present,
+  content => 'Hello World!',
+}
 
 # Create Nginx configuration file
 file { '/etc/nginx/sites-available/default':
   ensure  => present,
-  content => template('nginx_config/nginx_default.erb'),
-  require => Package['nginx'],
-  notify  => Service['nginx'],
-}
-
-# Custom template for Nginx default site
-file { '/etc/nginx/sites-available/default.erb':
-  ensure  => present,
   content => '
 server {
-    listen 80;
-    server_name localhost;
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	rewrite ^/redirect_me http://duncmeister.tech permanent;
 
-    location / {
-        return 200 "Hello World!\n";
-    }
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
 
-    location /redirect_me {
-        return 301 /new_location;
-    }
+	server_name _;
 
-    location /new_location {
-        return 200 "This is the new location!\n";
-    }
-}
+	location / {
+		try_files $uri $uri/ =404;
+	}
 ',
 }
-
-# Enable the default site by creating a symbolic link
-file { '/etc/nginx/sites-enabled/default':
-  ensure  => link,
-  target  => '/etc/nginx/sites-available/default',
-  require => File['/etc/nginx/sites-available/default'],
-  notify  => Service['nginx'],
-}
-

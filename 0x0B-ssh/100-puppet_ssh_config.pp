@@ -2,7 +2,7 @@
 $cont = "Host *
 	PasswordAuthentication no
 	IdentityFile ~/.ssh/school"
-file { '/root/.ssh/config':
+file { '/etc/ssh/ssh_config':
   ensure  => present,
   content => $cont,
 }

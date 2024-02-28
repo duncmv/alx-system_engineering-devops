@@ -21,7 +21,6 @@ file { '/etc/nginx/sites-available/default':
 server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
-	rewrite ^/redirect_me http://duncmeister.tech permanent;
 
 	root /var/www/html;
 	index index.html index.htm index.nginx-debian.html;
@@ -30,6 +29,9 @@ server {
 
 	location / {
 		try_files $uri $uri/ =404;
+	}
+	location /redirect_me {
+		return 301 youtube.com;
 	}
 ',
 }

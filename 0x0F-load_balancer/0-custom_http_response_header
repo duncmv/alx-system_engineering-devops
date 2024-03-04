@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# setting up a custom response header
+hostname=$(hostname)
+sudo sed -i "38i\\	add_header X-Served-By $hostname;" /etc/nginx/sites-available/default
+sudo service nginx restart

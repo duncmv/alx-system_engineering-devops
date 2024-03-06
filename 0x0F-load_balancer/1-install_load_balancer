@@ -17,5 +17,5 @@ backend servers
 	server web-02 100.27.12.171:80 check
 "
 echo "$config" | sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null
-sudo systemctl enable haproxy
+# sudo systemctl enable haproxy
 sudo service haproxy restart

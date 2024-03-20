@@ -6,4 +6,4 @@ if [ $# -ne 1 ]; then
 fi
 mysqldump -u root -p "$1" --all-databases > backup.sql
 DATE=$(date +'%d-%m-%Y')
-tar czf "$DATE.tar.gz" backup.sql
+tar -cvzf "$DATE.tar.gz" backup.sql
